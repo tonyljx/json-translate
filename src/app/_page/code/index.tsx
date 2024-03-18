@@ -46,40 +46,69 @@ export default function CodePage({}: Props) {
     setJsonValue(formatJSON(jsonValue));
     toast.success("format json string");
   };
+
+  const handleTranslate = async () => {
+    const res = await fetch("/api/translate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: "你好, 你是谁" }),
+    });
+    if (!res.ok) {
+      toast.error("error translate");
+      return;
+    }
+    const { message } = await res.json();
+
+    toast.success(message); // => 'Hello World! How are you?'
+  };
+
   return (
-    <div className="w-full flex flex-col container gap-3">
+    <div className="w-full flex flex-col  gap-3">
       <div className="grid md:grid-cols-2 gap-8">
-        <div className="flex gap-3">
-          <Button onClick={handleFormat}>Format</Button>
-        </div>
-        <div className="flex gap-2 flex-col">
-          <LanguageSelector />
-          <div className="flex gap-3">
-            <Button>Transform</Button>
+        <div className="space-y-6">
+          <div className="flex flex-col gap-3">
+            <h2 className="text-3xl font-bold tracking-tight">Origin Json</h2>
+            <Button
+              className="self-start"
+              variant="secondary"
+              onClick={handleFormat}
+            >
+              Format
+            </Button>
+          </div>
+
+          <div className="border-2 focus-within:border-blue-500 w-full p-1">
+            <CodeEditor
+              jsonValue={jsonValue}
+              handleJsonChange={setJsonValue}
+              setJsonValue={setJsonValue}
+            />
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold tracking-tight">Origin Json</h2>
+        <div className="space-y-6">
+          <div className="flex flex-col gap-3">
+            <h2 className="text-blue-500 text-3xl font-bold tracking-tight">
+              Output Json
+            </h2>
+            {/* <Button onClick={handleDownload}>Download</Button> */}
+            <div className="flex gap-2 items-center justify-between">
+              <LanguageSelector />
+              <div className="flex gap-3">
+                <Button onClick={handleTranslate}>Translate</Button>
+              </div>
+            </div>
+          </div>
 
-        <div className="flex gap-3">
-          <h2 className="text-3xl font-bold tracking-tight">Output Json</h2>
-          <Button onClick={handleDownload}>Download</Button>
-        </div>
-
-        <div className="border-2 focus-within:border-purple-500 w-full p-1">
-          <CodeEditor
-            jsonValue={jsonValue}
-            handleJsonChange={setJsonValue}
-            setJsonValue={setJsonValue}
-          />
-        </div>
-
-        <div className="border-2 focus-within:border-purple-500 w-full p-1">
-          <CodeEditor
-            jsonValue={jsonTransValue}
-            handleJsonChange={setTransValue}
-            setJsonValue={setTransValue}
-          />
+          <div className="border-2 focus-within:border-blue-500 w-full p-1">
+            <CodeEditor
+              jsonValue={jsonTransValue}
+              handleJsonChange={setTransValue}
+              setJsonValue={setTransValue}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 export type Framework = Record<"value" | "label", string>;
 export const LANGUAGES: Framework[] = [
-  { value: "en", label: "🇬🇧 English" },
+  { value: "en", label: "🇬🇧 🇺🇸 English" },
   { value: "zh", label: "🇨🇳 中文" },
   { value: "es", label: "🇪🇸 Español" },
   { value: "ar", label: "🇸🇦 العربية" },
