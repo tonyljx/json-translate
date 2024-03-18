@@ -1,5 +1,7 @@
 "use client";
 import CodeEditor from "@/app/_component/editor";
+import FancyMultiSelect from "@/app/_component/language-selector";
+import { LanguageSelector } from "@/app/_component/language-single-select";
 import { Button } from "@/components/ui/button";
 import { formatJSON, transformToJSONString } from "@/lib/json";
 import React, { useRef, useState } from "react";
@@ -45,22 +47,25 @@ export default function CodePage({}: Props) {
     toast.success("format json string");
   };
   return (
-    <div className="w-full flex flex-col gap-3">
-      <div className="flex justify-between">
+    <div className="w-full flex flex-col container gap-3">
+      <div className="grid md:grid-cols-2 gap-8">
         <div className="flex gap-3">
-          <Button onClick={handleClick}>Show</Button>
           <Button onClick={handleFormat}>Format</Button>
         </div>
-        <div>
+        <div className="flex gap-2 flex-col">
+          <LanguageSelector />
+          <div className="flex gap-3">
+            <Button>Transform</Button>
+          </div>
+        </div>
+
+        <h2 className="text-3xl font-bold tracking-tight">Origin Json</h2>
+
+        <div className="flex gap-3">
+          <h2 className="text-3xl font-bold tracking-tight">Output Json</h2>
           <Button onClick={handleDownload}>Download</Button>
         </div>
-      </div>
 
-      <div className="flex justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Origin Json</h2>
-        <h2 className="text-3xl font-bold tracking-tight">Output Json</h2>
-      </div>
-      <div className="grid md:grid-cols-2 gap-8">
         <div className="border-2 focus-within:border-purple-500 w-full p-1">
           <CodeEditor
             jsonValue={jsonValue}
