@@ -4,6 +4,7 @@ import FancyMultiSelect from "@/app/_component/language-selector";
 import { LanguageSelector } from "@/app/_component/language-single-select";
 import { Button } from "@/components/ui/button";
 import { formatJSON, transformToJSONString } from "@/lib/json";
+import { Loader2 } from "lucide-react";
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -15,6 +16,10 @@ export default function CodePage({}: Props) {
   );
 
   const [jsonTransValue, setTransValue] = useState<string | undefined>(``);
+
+  const [language, setLanguage] = useState("en");
+
+  const [loading, setLoading] = useState(false);
 
   const editorRef = useRef(null);
 
@@ -47,21 +52,37 @@ export default function CodePage({}: Props) {
     toast.success("format json string");
   };
 
+  /**
+   * 翻译
+   * @returns
+   */
   const handleTranslate = async () => {
-    const res = await fetch("/api/translate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text: "你好, 你是谁" }),
-    });
-    if (!res.ok) {
-      toast.error("error translate");
-      return;
-    }
-    const { message } = await res.json();
+    setLoading(true);
 
-    toast.success(message); // => 'Hello World! How are you?'
+    try {
+      const res = await fetch("/api/translate-ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: JSON.stringify(jsonValue),
+          language: language,
+        }),
+      });
+      if (!res.ok) {
+        toast.error("error translate");
+        return;
+      }
+      const { message } = await res.json();
+
+      toast.success(message); // => 'Hello World! How are you?'
+      setTransValue(message);
+    } catch (error) {
+      toast.error("error translate");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -79,7 +100,7 @@ export default function CodePage({}: Props) {
             </Button>
           </div>
 
-          <div className="border-2 focus-within:border-blue-500 w-full p-1">
+          <div className="border-2 focus-within:border-blue-500 w-full p-1 rounded">
             <CodeEditor
               jsonValue={jsonValue}
               handleJsonChange={setJsonValue}
@@ -90,19 +111,25 @@ export default function CodePage({}: Props) {
 
         <div className="space-y-6">
           <div className="flex flex-col gap-3">
-            <h2 className="text-blue-500 text-3xl font-bold tracking-tight">
+            <h2 className="text-blue-500 text-3xl font-bold tracking-tight ">
               Output Json
             </h2>
             {/* <Button onClick={handleDownload}>Download</Button> */}
             <div className="flex gap-2 items-center justify-between">
-              <LanguageSelector />
+              <LanguageSelector language={language} setLanguage={setLanguage} />
               <div className="flex gap-3">
-                <Button onClick={handleTranslate}>Translate</Button>
+                <Button
+                  onClick={handleTranslate}
+                  className="flex justify-center gap-2"
+                >
+                  {loading && <Loader2 className="animate-spin h-4 w-4" />}
+                  Translate
+                </Button>
               </div>
             </div>
           </div>
 
-          <div className="border-2 focus-within:border-blue-500 w-full p-1">
+          <div className="border-2 focus-within:border-blue-500 w-full p-1 rounded">
             <CodeEditor
               jsonValue={jsonTransValue}
               handleJsonChange={setTransValue}

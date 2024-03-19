@@ -11,11 +11,16 @@ import {
 } from "@/components/ui/select";
 import { LANGUAGES } from "@/constants/language";
 
-export function LanguageSelector() {
-  const [selectedValue, setSelectedValue] = React.useState("en");
+type LanguageProps = {
+  language: string;
+  setLanguage: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export function LanguageSelector({ language, setLanguage }: LanguageProps) {
+  // const [selectedValue, setSelectedValue] = React.useState("en");
   return (
     <div className="flex gap-3 items-center">
-      <Select onValueChange={(v) => setSelectedValue(v)} defaultValue="en">
+      <Select onValueChange={(v) => setLanguage(v)} defaultValue="en">
         <SelectTrigger className="w-[280px]">
           <SelectValue placeholder="Select a Language" />
         </SelectTrigger>
@@ -31,7 +36,7 @@ export function LanguageSelector() {
         </SelectContent>
       </Select>
 
-      <p>{selectedValue}</p>
+      <p>{language}</p>
     </div>
   );
 }
