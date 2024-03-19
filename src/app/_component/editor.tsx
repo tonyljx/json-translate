@@ -42,9 +42,7 @@ export default function CodeEditor({
           minimap: {
             enabled: false,
           },
-          scrollbar: {
-            vertical: false,
-          },
+          scrollbar: {},
           automaticLayout: true,
         }}
       />
