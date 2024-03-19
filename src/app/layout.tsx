@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+        <Script async src="https://umami.runningpig.top/script.js" data-website-id="20e0c6e6-3daf-42a7-8143-6681c0b03cb4"></Scrip>
       </body>
     </html>
   );
