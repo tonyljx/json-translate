@@ -19,7 +19,7 @@ export default function Home() {
             priority
           />
           <h1 className="text-2xl font-semibold tracking-tight">
-            Json Translator
+            Json Translate
           </h1>
         </Link>
 
