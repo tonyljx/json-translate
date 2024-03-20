@@ -4,6 +4,7 @@ import FancyMultiSelect from "@/app/_component/language-selector";
 import { LanguageSelector } from "@/app/_component/language-single-select";
 import { Button } from "@/components/ui/button";
 import { formatJSON, transformToJSONString } from "@/lib/json";
+import { getGPT3TokenLength } from "@/lib/openai";
 import { Loader2 } from "lucide-react";
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -14,12 +15,16 @@ export default function CodePage({}: Props) {
   const [jsonValue, setJsonValue] = useState<string | undefined>(
     `{"hello": "world"}`
   );
+  // 计算token
+  const gpt3TokenLength = getGPT3TokenLength(jsonValue);
 
   const [jsonTransValue, setTransValue] = useState<string | undefined>(``);
 
   const [language, setLanguage] = useState("en");
 
   const [loading, setLoading] = useState(false);
+
+  const [apiKey, setApiKey] = useState("");
 
   const editorRef = useRef(null);
 
@@ -91,13 +96,17 @@ export default function CodePage({}: Props) {
         <div className="space-y-6">
           <div className="flex flex-col gap-3">
             <h2 className="text-3xl font-bold tracking-tight">Origin Json</h2>
-            <Button
-              className="self-start"
-              variant="secondary"
-              onClick={handleFormat}
-            >
-              Format
-            </Button>
+
+            <div className="flex gap-2 items-center">
+              <Button
+                className="self-start"
+                variant="secondary"
+                onClick={handleFormat}
+              >
+                Format
+              </Button>
+              <p>Token Usage: {gpt3TokenLength}</p>
+            </div>
           </div>
 
           <div className="border-2 focus-within:border-blue-500 w-full p-1 rounded">
