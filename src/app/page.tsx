@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Footer from "@/components/common/footer";
 import SquigglyLines from "@/components/common/SquigglyLines";
+import { AccordionFAQ } from "@/components/common/faq";
 
 export default function Home() {
   return (
@@ -43,6 +44,8 @@ export default function Home() {
         We use OpenAI models to translate your json file, and we did not store
         the json, you own your data
       </p>
+
+      <AccordionFAQ />
       <Footer />
     </main>
   );
