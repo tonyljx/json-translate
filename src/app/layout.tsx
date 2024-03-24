@@ -31,7 +31,11 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
-        <Script async src="https://umami.runningpig.top/script.js" data-website-id="20e0c6e6-3daf-42a7-8143-6681c0b03cb4"></Scrip>
+        <Script
+          async
+          src="https://umami.runningpig.top/script.js"
+          data-website-id="20e0c6e6-3daf-42a7-8143-6681c0b03cb4"
+        ></Script>
       </body>
     </html>
   );
