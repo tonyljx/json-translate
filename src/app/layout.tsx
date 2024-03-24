@@ -11,8 +11,9 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "Json Translate",
-  description: "json translate | ai/gpt motivated json translation",
+  title: "JSON Translate - Get the Best SEO Content for Your Website",
+  description: "Looking for JSON translation and SEO optimization? Our expert service provides top-quality content tailored to your needs.",
+  keywords: "JSON translate, SEO content, expert service, top-quality, tailored"
 };
 
 export default function RootLayout({
